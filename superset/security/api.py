@@ -22,7 +22,7 @@ from flask_appbuilder import expose
 from flask_appbuilder.api import rison as parse_rison, safe, SQLAInterface
 from flask_appbuilder.api.schemas import get_list_schema
 from flask_appbuilder.security.decorators import permission_name, protect
-from flask_appbuilder.security.sqla.models import RegisterUser, Role
+from flask_appbuilder.security.sqla.models import PermissionView, RegisterUser, Role
 from flask_wtf.csrf import generate_csrf
 from marshmallow import EXCLUDE, fields, post_load, Schema, ValidationError
 from sqlalchemy import asc, desc
@@ -364,3 +364,16 @@ class UserRegistrationsRestAPI(BaseSupersetModelRestApi):
         "registration_date",
         "registration_hash",
     ]
+
+
+class PermissionRestApi(BaseSupersetModelRestApi):
+    datamodel = SQLAInterface(PermissionView)
+    resource_name = "security/permissions-resources"
+    allow_browser_login = True
+    class_permission_name = "PermissionViewMenu"
+    openapi_spec_tag = "Security Permissions on Resources (View Menus)"
+    list_columns = ["id", "permission.name", "view_menu.name"]
+    show_columns = list_columns
+    search_columns = ["id", "permission.name", "view_menu.name"]
+    add_columns = ["permission", "view_menu"]
+    edit_columns = add_columns

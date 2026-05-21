@@ -181,6 +181,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         from superset.reports.logs.api import ReportExecutionLogRestApi
         from superset.row_level_security.api import RLSRestApi
         from superset.security.api import (
+            PermissionRestApi,
             RoleRestAPI,
             SecurityRestApi,
             UserRegistrationsRestAPI,
@@ -499,6 +500,7 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
             menu_cond=lambda: feature_flag_manager.is_feature_enabled("TAGGING_SYSTEM"),
         )
         appbuilder.add_api(LogRestApi)
+        appbuilder.add_api(PermissionRestApi)
         appbuilder.add_api(UserRegistrationsRestAPI)
         appbuilder.add_view(
             ActionLogView,
